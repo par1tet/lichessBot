@@ -2,12 +2,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep as slp
 
-def start_game_with_player():
+def start_game_with_player(id):
     driver = webdriver.Chrome()
     driver.get('https://lichess.org/')
 
-    slp(0.25)
-    pick_a_time_control(driver,input())
+    slp(0.4)
+    pick_a_time_control(driver,id)
 
     input()
     
