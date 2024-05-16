@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 import tg_bot.keyboards.keyboard as kb
-from lichess.main_parser import start_game_with_player
+from lichess.main_parser import start_game_with_player, return_board
 
 r = Router()
 
@@ -21,3 +21,16 @@ async def pick_control(cb: CallbackQuery):
     id = int(cb.data.split('_')[-1])
     print(id)
     start_game_with_player(id)
+    board = return_board()
+    await cb.message.edit_text(text = f'Игра началась, выберайте фигуры и ходите', reply_markup=await kb.board_game(board))
+    
+@r.callback_query(F.data.startswith('piece_choice_'))
+async def pick_control(cb: CallbackQuery):
+    await cb.answer('')
+
+    print(cb.data)
+    coords = [(cb.data).split('_')[-2], (cb.data).split('_')[-1]]
+    print(coords)
+
+    board = return_board()
+    await cb.message.edit_text(text = f'Вы выбрали фигуру, делайте ход', reply_markup=await kb.board_game(board))
